@@ -65,5 +65,5 @@ def getFileList(fp):
 setupDatabase(_DATABASE)
 getFileList(directory)
 
-
+#Hoelang doet het programma erover
 print time.time() - start_time,  'seconden'
