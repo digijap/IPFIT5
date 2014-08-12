@@ -25,6 +25,6 @@ def setupDatabase(clearDB, db = _DATABASE):
 
 def updateDatabase(ID,  Path,  Filename,  Extension,  MD5, magic,  db = _DATABASE):
     cur,  con = setupConnection(db)
-    command = 'INSERT INTO files VALUES( %d,%s, %s, %s, %s, %s)' % (ID,   "'"+ Path+"'", "'"+Filename+"'","'"+Extension+"'",  "'"+MD5+"'",   "'"+magic+"'")
+    command = 'INSERT INTO files VALUES( %d,%s, %s, %s, %s, %s)' % (ID,   "'"+ Path+"'", "'"+Filename+"'","'"+Extension+"'",   "'"+magic+"'", "'"+MD5+"'")
     cur.execute(command)
     con.commit()
