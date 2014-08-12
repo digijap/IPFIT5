@@ -1,90 +1,61 @@
 import os
 import sqlite3
 import hashlib
+from database import updateDatabase,  setupDatabase
+
 #Voor het berekenen van de tijd hoelang het programma bezig is
 import time
-import math
 
 #Klaar  198419 Bestanden geindexd
 #1908.73631406 seconden
 
-#----------------------------------------------------------------------------------------- #
-#DATABASE CONNECTIE WORDT GESLOTEN IN getFileList#
-#-----------------------------------------------------------------------------------------#
-
-_DATABASE = "/home/jasper/IPFIT5/file.db" #Waar staat de database
+clearDB = True
 directory = "/home" #Voor de file listing
-ClearDB = False 
 
 start_time = time.time()
 
-
-def setupDatabase(db):
-    #Con is connectie naar de database. 
-    #Cur is waar ga je de data invoegen in de database. De cursor van de database
-    #Maak database aan als die nog niet bestaat. Legt anders de connectie naar de database
-    if ClearDB:
-        con = sqlite3.connect(db)
-        cur = con.cursor() 
-        cur.execute("DROP TABLE File")
-        cur.execute("CREATE TABLE File(ID INT, Path TEXT, Filename TEXT, Extension TEXT, md5 VARCHAR(32))")
-    
-    if not os.path.isfile(db):
-        con = sqlite3.connect(db)
-        cur = con.cursor() 
-        cur.execute("CREATE TABLE File(ID INT, Path TEXT, Filename TEXT, Extension TEXT, md5 VARCHAR(32))")
-
 def getFileList(fp):
     count = 0 #Primary key voor database
-    con = sqlite3.connect(_DATABASE)
-    cur = con.cursor() 
+    euid = os.geteuid()     #EUID is 0 als je root bent anders kan het script niet uitgevoerd worden
     
-    #EUID is 0 als je root bent anders kan het script niet uitgevoerd worden
-    euid = os.geteuid()
     if euid != 0:
-        print "Youre not root"
+        print "You are not root"
         exit()
     else:
+        setupDatabase(clearDB)
         if os.path.exists(fp):
             try:
+                #Loop door alle folder en filenames heen
                 for dirname, dirnames, filenames in os.walk(fp):
                     for filename in filenames:
-                        count += 1
-                        
-                        
-                        filen,  extension = os.path.splitext(filename)
+    
+                        #Get extension als de extension 1 of 0 lang is dan is er geen extensie
+                        #Dit returnt van test.txt    fname = test    extension = .txt
+                        fname,  extension = os.path.splitext(filename) 
                         if len(extension) <= 1:
                             extension = "None"
                         
+                        #Get MD5 van de functie MD5sum
                         md5 = md5sum(dirname+"/"+filename)
                         
-                        md5sum(dirname+"/"+filename)
+                        #De count met 1 verhogen voor de primary key
+                        count += 1
                         
-                        #Insert de data die wordt op gegeven door de OS.walk in de database.
-                        command = 'INSERT INTO File VALUES( %d,%s, %s, %s, %s)' % (count,   "'"+ dirname+"'", "'"+filen+"'","'"+extension+"'",  "'"+md5+"'")
-    
-                        #print command
-                        cur.execute(command)
-                        #Schrijf de data weg
-                        con.commit()
+                        updateDatabase(count,  dirname,  fname,  extension,  md5)
             except Exception,  e:
-                print "Er is een fout opgetreden",  e
-    #Sluit de database connectie
-    con.close()
-    
+                print "Er is een fout opgetreden: ",  e
     return count
     
 def md5sum(filename, blocksize=65536):
     hash = hashlib.md5()
     with open(filename, "r+b") as f:
-        for block in iter(lambda: f.read(blocksize), ""):
+        #als block size is bereikt in f dan geeft lambda de text terug en wordt de hash geupdate
+        for block in iter(lambda: f.read(blocksize), ""): 
             hash.update(block)
+    #return de hash waarde
     return hash.hexdigest()
 
 
-
-
-setupDatabase(_DATABASE)
 count = getFileList(directory)
 
 #Hoelang doet het programma erover

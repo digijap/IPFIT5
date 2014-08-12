@@ -1,4 +1,6 @@
+*.mm
 *.db
 *.e4p
 *.e4q
 *.e4t
+*.pyc
