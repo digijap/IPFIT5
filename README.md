@@ -1,8 +1,9 @@
 Libraries die je nodig hebt om dit programma te gebruiken:
 
+  hashlib
 
-Hashlib
-Python magic 
+  Python magic 
+
 
 
 Installeer de libraries met PIP
