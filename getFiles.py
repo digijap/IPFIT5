@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import hashlib
+import magic
 from database import updateDatabase,  setupDatabase
 
 #Voor het berekenen van de tijd hoelang het programma bezig is
@@ -36,12 +37,14 @@ def getFileList(fp):
                             extension = "None"
                         
                         #Get MD5 van de functie MD5sum
-                        md5 = md5sum(dirname+"/"+filename)
-                        
+                        #md5 = md5sum(dirname+"/"+filename)
+                        md5 = ""
+                        #Get MIME
+                        mimetype = mime(dirname+"/"+filename)
                         #De count met 1 verhogen voor de primary key
                         count += 1
                         
-                        updateDatabase(count,  dirname,  fname,  extension,  md5)
+                        updateDatabase(count,  dirname,  fname,  extension,  mimetype, md5)
             except Exception,  e:
                 print "Er is een fout opgetreden: ",  e
     return count
@@ -54,6 +57,13 @@ def md5sum(filename, blocksize=65536):
             hash.update(block)
     #return de hash waarde
     return hash.hexdigest()
+    
+def mime(fp):
+    mimetype = magic.from_file(fp)
+    if len(mimetype) <= 1:
+        mimetype = "None"
+    mimetype = mimetype.replace("'",  "")
+    return mimetype
 
 
 count = getFileList(directory)

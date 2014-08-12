@@ -11,7 +11,7 @@ def setupConnection(db = _DATABASE):
     return cur,  con
     
 def setupDatabase(clearDB, db = _DATABASE):
-    makeTable = "CREATE TABLE files(ID INT, Path TEXT, Filename TEXT, Extension VARCHAR(10), md5 VARCHAR(32))"
+    makeTable = "CREATE TABLE files(ID INT, Path TEXT, Filename TEXT, Extension VARCHAR(10), Mime TEXT, md5 VARCHAR(32))"
     #Maak database aan als die nog niet bestaat. Legt anders de connectie naar de database en maakt de tabel
 
     if not os.path.isfile(db):
@@ -23,8 +23,8 @@ def setupDatabase(clearDB, db = _DATABASE):
         cur.execute("DROP TABLE files")
         cur.execute(makeTable)
 
-def updateDatabase(ID,  Path,  Filename,  Extension,  MD5, db = _DATABASE):
+def updateDatabase(ID,  Path,  Filename,  Extension,  MD5, magic,  db = _DATABASE):
     cur,  con = setupConnection(db)
-    command = 'INSERT INTO files VALUES( %d,%s, %s, %s, %s)' % (ID,   "'"+ Path+"'", "'"+Filename+"'","'"+Extension+"'",  "'"+MD5+"'")
+    command = 'INSERT INTO files VALUES( %d,%s, %s, %s, %s, %s)' % (ID,   "'"+ Path+"'", "'"+Filename+"'","'"+Extension+"'",  "'"+MD5+"'",   "'"+magic+"'")
     cur.execute(command)
     con.commit()
