@@ -1,0 +1,16 @@
+<%inherit file="layout.html"/>
+
+<%block name="head">
+<script type="text/javascript" src="${url_for('static', filename='js/search.js')}"></script>
+</%block>
+
+<%block name="title">Search</%block>
+
+<form>
+    <input name="q" id="q" value="${ args.get("q", "") }" />
+</form>
+
+<div id="results">
+
+</div>
+

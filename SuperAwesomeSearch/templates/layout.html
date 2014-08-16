@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+    <head>
+        <title>${self.title()}</title>
+        <link rel=stylesheet type=text/css href="${ url_for('static', filename='css/bootstrap.min.css') }">
+        <link rel=stylesheet type=text/css href="${ url_for('static', filename='css/style.css') }">
+        <script src="${ url_for('static', filename='js/jquery-1.9.1.min.js') }"></script>
+        <script src="${ url_for('static', filename='js/bootstrap.min.js') }"></script>
+        <%block name="head"/>
+        <script>
+        <%block name="js"/>
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><%block name="title"/></h1>
+
+            ${self.body()}
+        </div>
+    </body>
+</html>
