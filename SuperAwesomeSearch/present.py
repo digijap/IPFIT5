@@ -6,7 +6,7 @@ from flask import request
 from whoosh import index, qparser, highlight
 from whoosh.qparser.dateparse import DateParserPlugin
 
-SOURCEDIR = os.environ.get("SOURCE", "cpython/Doc")
+SOURCEDIR = '/media/GERRIT'
 INDEXDIR = os.environ.get("INDEX", "index")
 
 app = Flask(__name__)
@@ -26,14 +26,6 @@ def results():
         return render_results(s, qs, "results.html")
 
 
-@app.route("/analyzer")
-def analyzer():
-    with get_searcher() as s:
-        fieldname = request.args.get("fieldname")
-        q = request.args.get("q", "")
-        return render_template("analyzer.html", searcher=s, fieldname=fieldname, q=q)
-
-
 @app.route("/lexicon")
 def lexicon():
     with get_searcher() as s:
@@ -47,27 +39,23 @@ def get_searcher():
 
 
 def render_results(s, qs, template):
-    qp = qparser.QueryParser("content", s.schema)
-    qp = qparser.MultifieldParser(["tgrams", "content"], s.schema)
+    #qp = qparser.QueryParser("content", s.schema)
+    qp = qparser.MultifieldParser(["tgrams", "title"], s.schema)
 
     # Add the DateParserPlugin to the parser
     qp.add_plugin(DateParserPlugin())
 
     q = qp.parse(qs)
 
-    results = s.search(q, limit=100)
+    results = s.search(q, limit=100, sortedby="title")
     #results = s.search(q, limit=100, sortedby="title", reverse=True)
     #results = s.search(q, limit=100, groupedby="chapter")
     q = results.q
 
-    hf = highlight.HtmlFormatter()
-    results.highlighter = highlight.Highlighter(formatter=hf)
+    #hf = highlight.HtmlFormatter()
+    #results.highlighter = highlight.Highlighter(formatter=hf)
 
     qc = None
-    if not results:
-        corrected = s.correct_query(q, qs, prefix=1)
-        if corrected.query != q:
-            qc = corrected.format_string(hf)
 
     def hilite(hit):
         with open(SOURCEDIR + hit["path"], "rb") as hitfile:
