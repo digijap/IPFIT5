@@ -11,16 +11,6 @@
         <tr>
             <th>Run time</th><td>${"%0.04f" % results.runtime} s</td>
         </tr>
-        % if corrected:
-        <tr>
-            <th>Did you mean</th><td>${corrected}</td>
-        </tr>
-        % endif
-        % if results.facet_names():
-            <tr>
-                <th>Groups</th><td>${results.groups()}</td>
-            </tr>
-        % endif
     </table>
 
     <p>${len(results)} results</p>
@@ -29,11 +19,11 @@
         <ol>
             %for hit in results:
                 <li>
-                    <a href="http://docs.python.org/3${hit["path"].replace(".rst", ".html")}">
-                    ${hit["title"]}
+                    <a href="file://media${hit["path"]}">
+                    ${hit["title"]} ${hit["ext"]}
                     </a>
                     (${hit["chapter"]})
-                    % if hit.rank < 10:
+                    % if hit.rank < 0:
                     <p>${hilite(hit)}</p>
                     % endif
                 </li>
