@@ -2,24 +2,25 @@ import sys
 import os.path
 import datetime
 import re
-from collections import defaultdict
 
 from whoosh import analysis, fields, index
 from whoosh.lang.stopwords import stoplists
 from whoosh.util import now
 
-sourcedir = os.path.abspath(sys.argv[1])
-indexdir = os.path.abspath(sys.argv[2])
-
-title_re = re.compile("^\s*((\w|[:]).*?)\n[-*=#+%]{3,}$", re.MULTILINE) #^\s elke spatie aan het begin van de line. 
+sourcedir = '/media/GERRIT'
+indexdir = '/home/jasper/SuperAwesomeSearch/index'
 
 ana = analysis.StemmingAnalyzer(stoplist=stoplists["en"], maxsize=40)
 
+
 class PydocSchema(fields.SchemaClass):
+
     path = fields.STORED
 
     title = fields.TEXT(stored=True, sortable=True, spelling=True, analyzer=ana)
     tgrams = fields.NGRAMWORDS
+
+    ext = fields.TEXT(stored=True, sortable=True)
 
     content = fields.TEXT(spelling=True, analyzer=ana)
 
@@ -34,29 +35,23 @@ with ix.writer(limitmb=2048) as w:
     for dirpath, dirnames, filenames in os.walk(sourcedir):
         chapter = unicode(os.path.basename(dirpath))
         for filename in filenames:
-            if not filename.endswith(".rst"):
-                continue
-
             filepath = os.path.join(dirpath, filename)
             size = os.path.getsize(filepath)
 
-            print filepath
-            with open(filepath, "rb") as f:
-                data = f.read().decode("utf-8")
+            print filename
+            path = dirpath
 
-                revdate = revnum = None
+            fileName, fileExt = os.path.splitext(filename)
+            fileName = unicode(fileName, errors='ignore')
+            fileExt = unicode(fileExt, errors='ignore')
+            data = None
 
-                path = filepath[len(sourcedir):]
-                
-                title_match = title_re.search(data)
-                if title_match:
-                    title = title_match.group(1)
-
-                w.add_document(path=path,
-                               title=title, tgrams=title,
-                               content=data,
-                               chapter=chapter,
-                               size=size)
+            w.add_document(path=path,
+                            title=fileName, tgrams=fileName,
+                            ext=fileExt,
+                            content=data,
+                            chapter=chapter,
+                            size=size)
 
     print "-", now() - t
 
