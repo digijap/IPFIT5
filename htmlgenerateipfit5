@@ -1,0 +1,34 @@
+import HTML
+
+# open een HTML bestand waarin de output moet worden gezet
+
+HTMLFILE = 'IPFIT5.html'
+
+f = open(HTMLFILE, 'w')
+
+# genereer case data vanuit sleutel
+casenaam = 
+casenr =
+onderzoeker = 
+
+#
+
+
+hoofdinfo = 'Hallo'
+print hoofdinfo
+f.write(hoofdinfo)
+
+
+table_data = [
+        ['Last name',   'First name',   'Age'],
+        ['Smith',       'John',         30],
+        ['Carpenter',   'Jack',         47],
+        ['Johnson',     'Paul',         62],
+    ]
+
+
+htmlcode = HTML.table(table_data)
+print htmlcode
+f.write(htmlcode)
+f.write('<p>')
+print '-'*79
