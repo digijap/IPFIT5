@@ -5,11 +5,16 @@ import HTML
 HTMLFILE = 'IPFIT5.html'
 f = open(HTMLFILE, 'w')
 
-# Titel
+# Het opmaken van het html document
 titel = 'IFPIT5 HTML rapport'
 f.write(titel)
 f.write('<p>')
-f.write('<title> Ipfit5 Html rapport </title>')
+f.write('<title> Ipfit5 Html rapport </title>') # voegt pagina titel toe
+
+# voegt een afbeelding van het rapport of onderzoeksbureau toe.
+f.write('<img src="http://www.w3schools.com/images/pulpit.jpg" alt="Hier moet een afbeelding">') 
+f.write('<p>')
+f.write('<body bgcolor="#E6E6FA">') # Voegt een achtergrond kleur toe aan het rapport
 
 # genereer case data vanuit sleutel
 casenaam = 'test'
@@ -22,12 +27,14 @@ table_data = [
         ['Casenummer', casenr],
         ['Onderzoeker' , onderzoeker]
 ]
+
 htmlcode = HTML.table(table_data)
 print htmlcode
 f.write(htmlcode)
 f.write('<p>')
 print '-'*79
 
+#
 #hoofdinfo = 'Hallo'
 #print hoofdinfo
 #f.write(hoofdinfo)
