@@ -3,32 +3,31 @@ import HTML
 # open een HTML bestand waarin de output moet worden gezet
 
 HTMLFILE = 'IPFIT5.html'
-
 f = open(HTMLFILE, 'w')
 
+# Titel
+titel = 'IFPIT5 HTML rapport'
+f.write(titel)
+f.write('<p>')
+f.write('<title> Ipfit5 Html rapport </title>')
+
 # genereer case data vanuit sleutel
-casenaam = 
-casenr =
-onderzoeker = 
+casenaam = 'test'
+casenr = '1' 
+onderzoeker = 'Dylan Bragonje'
 
-#
-
-
-hoofdinfo = 'Hallo'
-print hoofdinfo
-f.write(hoofdinfo)
-
-
+# printen van de casedata naar het html bestand
 table_data = [
-        ['Last name',   'First name',   'Age'],
-        ['Smith',       'John',         30],
-        ['Carpenter',   'Jack',         47],
-        ['Johnson',     'Paul',         62],
-    ]
-
-
+        ['Case',   casenaam],
+        ['Casenummer', casenr],
+        ['Onderzoeker' , onderzoeker]
+]
 htmlcode = HTML.table(table_data)
 print htmlcode
 f.write(htmlcode)
 f.write('<p>')
 print '-'*79
+
+#hoofdinfo = 'Hallo'
+#print hoofdinfo
+#f.write(hoofdinfo)
