@@ -3,12 +3,15 @@ import argparse
 
 from whoosh import index, qparser
 
+#
 parser = argparse.ArgumentParser()
 parser.add_argument("query")
 args = parser.parse_args()
 
+#
 print args.group
 
+#
 indexdir = "/home/jasper/whoosh/index"
 
 qs = " ".join(sys.argv[1:])
