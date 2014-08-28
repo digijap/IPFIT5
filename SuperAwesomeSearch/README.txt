@@ -12,8 +12,6 @@ Volgende stappen gebeuren allemaal in de map /SuperAwesomeSearch map
 
 $mkdir index
 
-$python scripts/index_python.py c
-
-$python present.py
+$python run_search.py
 
 Nu runt de search engine op 127.0.0.1:5000
