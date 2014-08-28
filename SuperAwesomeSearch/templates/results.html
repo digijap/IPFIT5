@@ -19,7 +19,7 @@
         <ol>
             %for hit in results:
                 <li>
-                    <a href="file://media${hit["path"]}">
+                    <a href="file://media${hit["path"]}/${hit["title"]}${hit["ext"]}">
                     ${hit["title"]} ${hit["ext"]}
                     </a>
                     (${hit["chapter"]})
