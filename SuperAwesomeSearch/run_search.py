@@ -8,13 +8,11 @@ from whoosh.util import now
 sourcedir = raw_input("Wat moet er geindexd worden?\n")
 indexdir = '/home/jasper/SuperAwesomeSearch/index'
 
-ana = analysis.StemmingAnalyzer(stoplist=stoplists["en"], maxsize=40)
-
-
+ana = analysis.StemmingAnalyzer(stoplist=stoplists["en"], maxsize=40) #analyseren van de titel
 
 
 class PydocSchema(fields.SchemaClass):
-
+    #aanmaken schema, de fields, voor het indexen
     path = fields.STORED
 
     title = fields.TEXT(stored=True, sortable=True, spelling=True, analyzer=ana)
@@ -39,7 +37,7 @@ ix = index.create_in(indexdir, PydocSchema)
 with ix.writer(limitmb=2048) as w:
     t = now()
     for dirpath, dirnames, filenames in os.walk(sourcedir):
-        chapter = unicode(os.path.basename(dirpath))
+        chapter = unicode(os.path.basename(dirpath)) #De map waarin de file staat
         for filename in filenames:
             filepath = os.path.join(dirpath, filename)
             size = os.path.getsize(filepath)
@@ -60,7 +58,7 @@ with ix.writer(limitmb=2048) as w:
             created = time.ctime(os.stat(filepath).st_ctime)
             created = unicode(created[4:])
 
-
+            #Toevoegen van de informatie in de database
             w.add_document(path=path,
                             title=fileName, tgrams=fileName,
                             ext=fileExt,
