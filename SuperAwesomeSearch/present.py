@@ -6,7 +6,7 @@ from flask import request
 from whoosh import index, qparser, highlight
 from whoosh.qparser.dateparse import DateParserPlugin
 
-SOURCEDIR = '/media/GERRIT'
+SOURCEDIR = 'nietnodig'
 INDEXDIR = os.environ.get("INDEX", "index")
 
 app = Flask(__name__)
