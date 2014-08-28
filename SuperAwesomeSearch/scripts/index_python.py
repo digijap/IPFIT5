@@ -7,8 +7,6 @@ from whoosh import analysis, fields, index
 from whoosh.lang.stopwords import stoplists
 from whoosh.util import now
 
-sourcedir = '/media/GERRIT'
-indexdir = '/home/jasper/SuperAwesomeSearch/index'
 
 ana = analysis.StemmingAnalyzer(stoplist=stoplists["en"], maxsize=40)
 
