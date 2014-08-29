@@ -2,12 +2,17 @@ import os
 from flask import Flask
 from flaskext.mako import render_template, init_mako
 from flask import request
+import webbrowser
 
 from whoosh import index, qparser, highlight
 from whoosh.qparser.dateparse import DateParserPlugin
 
+new = 1
+url = "http://127.0.0.1:5000"
+webbrowser.open(url, new=new)
+
 SOURCEDIR = 'nietnodig'
-INDEXDIR = os.environ.get("INDEX", "index")
+INDEXDIR = '/home/jasper/SuperAwesomeSearch/index'
 
 app = Flask(__name__)
 app.config["MAKO_DIR"] = os.environ.get("DEMOTEMPLATES", "templates")
