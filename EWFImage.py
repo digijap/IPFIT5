@@ -23,4 +23,4 @@ term = "lxterminal -e '" + command + "'" #command voor opstarten terminal
 if os.getuid() != 0: #check of je root bent of niet
     print "Je bent niet root"
 else:
-    os.system(term)
+    os.system(term) 
