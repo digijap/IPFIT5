@@ -1,15 +1,5 @@
-Libraries die je nodig hebt om dit programma te gebruiken:
+Met dit programma kan je livesearchen indexen en imagen.
 
-  hashlib
-
-  Python magic 
-
-
-
-Installeer de libraries met PIP
-
-$ apt-get install python-pip
-
-$ pip install hashlib
-
-$ pip install python-magic
+Voor gebruik moet je op dit moment nog beschikken over de virtualbox van Jasper.
+Je kan wel de code inkijken maar dus niet gebruiken.
+Op de virtual box staat ook een handleiding over hoe de search engine het beste te gebruiken is.
