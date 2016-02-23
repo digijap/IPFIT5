@@ -1,5 +1,2 @@
-Met dit programma kan je livesearchen indexen en imagen.
-
-Voor gebruik moet je op dit moment nog beschikken over de virtualbox van Jasper.
-Je kan wel de code inkijken maar dus niet gebruiken.
-Op de virtual box staat ook een handleiding over hoe de search engine het beste te gebruiken is.
+This is a school project. It is an implementation of whoosh (a pure python full text indexing, search and spell checking library) with flask to show the result in a front end.
+It's one of the first coding projects I did so if you're looking through this, I really had no idea what I was doing and copied most things and it just worked. Maybe if I feel like it I would update this.
